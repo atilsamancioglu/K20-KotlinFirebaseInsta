@@ -20,8 +20,12 @@ import com.atilsamancioglu.kotlinfirebaseinsta.databinding.ActivityUploadBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import java.io.IOException
 import java.util.*
 
@@ -43,8 +47,8 @@ class UploadActivity : AppCompatActivity() {
         setContentView(view)
         registerLauncher()
 
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
+        auth = Firebase.auth
+        db = Firebase.firestore
 
     }
 
@@ -75,14 +79,14 @@ class UploadActivity : AppCompatActivity() {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
 
-        val storage = FirebaseStorage.getInstance()
+        val storage = Firebase.storage
         val reference = storage.reference
         val imagesReference = reference.child("images").child(imageName)
 
         if (selectedPicture != null) {
             imagesReference.putFile(selectedPicture!!).addOnSuccessListener { taskSnapshot ->
 
-                val uploadedPictureReference = FirebaseStorage.getInstance().reference.child("images").child(imageName)
+                val uploadedPictureReference = storage.reference.child("images").child(imageName)
                 uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
                     val downloadUrl = uri.toString()
                     println(downloadUrl)

@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Toast
 import com.atilsamancioglu.kotlinfirebaseinsta.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
 
         val currentUser = auth.currentUser
 
